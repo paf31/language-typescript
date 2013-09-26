@@ -1,0 +1,25 @@
+name: language-typescript
+version: 0.0.1
+cabal-version: >=1.2
+build-type: Simple
+license: MIT
+license-file: LICENSE
+copyright: (c) DICOM Grid Inc. 2013
+maintainer: Phillip Freeman <paf31@cantab.net>
+stability: experimental
+homepage: http://github.com/paf31/language-typescript
+synopsis: A library for working with TypeScript Definition files
+description: A library for working with TypeScript Definition files
+category: Language
+author: Phillip Freeman <paf31@cantab.net>
+data-dir: ""
+
+library
+    build-depends: base -any, containers -any, parsec -any
+    exposed-modules: Language.TypeScript
+    exposed: True
+    buildable: True
+    hs-source-dirs: src
+    other-modules: Language.TypeScript.Parser Language.TypeScript.Lexer
+                   Language.TypeScript.Types
+
