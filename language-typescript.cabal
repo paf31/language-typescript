@@ -1,6 +1,6 @@
 name: language-typescript
 version: 0.0.1
-cabal-version: >=1.2
+cabal-version: >=1.4
 build-type: Simple
 license: MIT
 license-file: LICENSE
