@@ -15,7 +15,7 @@ author: Phillip Freeman <paf31@cantab.net>
 data-dir: ""
 
 library
-    build-depends: base >= 3, containers -any, parsec -any
+    build-depends: base >= 3 && <= 5, containers -any, parsec -any
     exposed-modules: Language.TypeScript Language.TypeScript.Parser
                      Language.TypeScript.Lexer Language.TypeScript.Types
     exposed: True
