@@ -1,4 +1,4 @@
 dist
 *.o
 *.hi
-*.lkshw
+*.lksh*
