@@ -36,12 +36,14 @@ nextIdentifier =
 
 declarationSourceFile = whiteSpace >> many declarationElement <* eof
 
+exported = reserved "export" >> return Exported
+
 declarationElement = choice $ map try
-  [ InterfaceDeclaration <$> commentPlaceholder <*> optionMaybe (reserved "export" >> return Exported) <*> interface
-  , ImportDeclaration <$> optionMaybe (reserved "export" >> return Exported) <*> (reserved "import" *> identifier) <*> (lexeme (char '=') *> entityName)
+  [ InterfaceDeclaration <$> commentPlaceholder <*> optionMaybe exported <*> interface
+  , ImportDeclaration <$> optionMaybe exported <*> (reserved "import" *> identifier) <*> (lexeme (char '=') *> entityName)
   , ExportDeclaration <$> (reserved "export" >> lexeme (char '=') *> identifier)
-  , ExternalImportDeclaration <$> optionMaybe (reserved "export" >> return Exported) <*> (reserved "import" *> identifier) <*> (lexeme (char '=') *> reserved "require" *> parens stringLiteral)
-  , AmbientDeclaration <$> commentPlaceholder <*> optionMaybe (reserved "export" >> return Exported) <*> (reserved "declare" *> ambientDeclaration)
+  , ExternalImportDeclaration <$> optionMaybe exported <*> (reserved "import" *> identifier) <*> (lexeme (char '=') *> reserved "require" *> parens stringLiteral)
+  , AmbientDeclaration <$> commentPlaceholder <*> optionMaybe exported <*> (reserved "declare" *> ambientDeclaration)
   ]
 
 ambientDeclaration = choice (map try
@@ -68,7 +70,19 @@ ambientEnumDeclaration = AmbientEnumDeclaration <$> commentPlaceholder <*> (rese
 
 ambientModuleDeclaration = AmbientModuleDeclaration <$> commentPlaceholder <*> (reserved "module" *> sepBy identifier dot) <*> braces (many ambientDeclaration)
 
-ambientExternalModuleDeclaration = AmbientExternalModuleDeclaration <$> commentPlaceholder <*> (reserved "module" *> stringLiteral) <*> braces (many ambientDeclaration)
+ambientExternalModuleDeclaration = AmbientExternalModuleDeclaration <$> commentPlaceholder <*> (reserved "module" *> stringLiteral) <*> braces (many ambientExternalModuleElement)
+
+ambientExternalModuleElement = choice (map try
+  [ AmbientModuleElement <$> ambientDeclaration
+  , exportAssignment
+  , externalImportDeclaration ])
+
+exportAssignment = ExportAssignment <$> (reserved "export" *> lexeme (char '=') *> identifier <* semi)
+
+externalImportDeclaration =
+  AmbientModuleExternalImportDeclaration <$> optionMaybe exported
+                                         <*> (reserved "import" *> identifier)
+                                         <*> (lexeme (char '=') *> reserved "require" *> stringLiteral)
 
 ambientClassBodyElement = (,) <$> commentPlaceholder <*> (choice $ map try
   [ ambientConstructorDeclaration

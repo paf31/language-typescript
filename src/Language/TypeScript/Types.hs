@@ -52,7 +52,13 @@ data Ambient
   | AmbientInterfaceDeclaration Interface
   | AmbientEnumDeclaration CommentPlaceholder String [(String, Maybe Integer)]
   | AmbientModuleDeclaration CommentPlaceholder [String] [Ambient]
-  | AmbientExternalModuleDeclaration CommentPlaceholder String [Ambient]
+  | AmbientExternalModuleDeclaration CommentPlaceholder String [AmbientExternalModuleElement]
+  deriving (Show, Data, Typeable)
+
+data AmbientExternalModuleElement
+  = AmbientModuleElement Ambient
+  | ExportAssignment String
+  | AmbientModuleExternalImportDeclaration (Maybe Exported) String String
   deriving (Show, Data, Typeable)
 
 data TypeRef = TypeRef TypeName (Maybe [Type]) deriving (Show, Data, Typeable)
