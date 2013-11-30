@@ -1,5 +1,5 @@
 name: language-typescript
-version: 0.0.2
+version: 0.0.3
 cabal-version: >=1.4
 build-type: Simple
 license: MIT
@@ -15,11 +15,11 @@ author: Phillip Freeman <paf31@cantab.net>
 data-dir: ""
 
 library
-    build-depends: base >= 3 && <= 5, containers -any, parsec -any
-    exposed-modules: Language.TypeScript Language.TypeScript.Parser
-                     Language.TypeScript.Lexer Language.TypeScript.Types
+    build-depends: base >=3 && <=5, containers -any, parsec -any, pretty -any
+    exposed-modules: Language.TypeScript.Pretty Language.TypeScript
+                     Language.TypeScript.Parser Language.TypeScript.Lexer
+                     Language.TypeScript.Types
     exposed: True
     buildable: True
     hs-source-dirs: src
-    other-modules:
 

@@ -21,8 +21,8 @@ import Data.Monoid
 import Data.Data (Typeable, Data)
 
 data Comment = Comment
-  { text     :: [String]
-  , other    :: [(String, String)]
+  { commentText     :: [String]
+  , commentOther    :: [(String, String)]
   } deriving (Show, Data, Typeable)
 
 instance Monoid Comment where
