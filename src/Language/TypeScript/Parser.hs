@@ -40,9 +40,9 @@ exported = reserved "export" >> return Exported
 
 declarationElement = choice $ map try
   [ InterfaceDeclaration <$> commentPlaceholder <*> optionMaybe exported <*> interface
-  , ImportDeclaration <$> optionMaybe exported <*> (reserved "import" *> identifier) <*> (lexeme (char '=') *> entityName)
   , ExportDeclaration <$> (reserved "export" >> lexeme (char '=') *> identifier)
-  , ExternalImportDeclaration <$> optionMaybe exported <*> (reserved "import" *> identifier) <*> (lexeme (char '=') *> reserved "require" *> parens stringLiteral)
+  , ExternalImportDeclaration <$> optionMaybe exported <*> (reserved "import" *> identifier) <*> (lexeme (char '=') *> reserved "require" *> parens stringLiteral <* semi)
+  , ImportDeclaration <$> optionMaybe exported <*> (reserved "import" *> identifier) <*> (lexeme (char '=') *> entityName)
   , AmbientDeclaration <$> commentPlaceholder <*> optionMaybe exported <*> (reserved "declare" *> ambientDeclaration)
   ]
 
